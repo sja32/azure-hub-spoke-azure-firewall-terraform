@@ -47,10 +47,35 @@ The goal of this lab was to design, deploy, validate, and troubleshoot a central
 
 ## Access Model
 
-- Jump host deployed in hub with public IP
-- Spoke VM is private-only (no public IP)
-- SSH access path:
+* Jump host deployed in hub with public IP
+* Spoke VM is private-only (no public IP)
+* SSH access path:
 
 ```text
 Laptop → Jump Host → Spoke VM
+```
 
+---
+
+## Validation
+
+### Test Commands
+
+From the spoke VM:
+
+```bash
+curl -4 http://ifconfig.me/ip
+curl -4 https://ifconfig.me/ip
+```
+
+### Result
+
+```text
+20.228.171.168
+```
+
+### What This Confirms
+
+* Outbound traffic is not using the default Azure internet path
+* Traffic is successfully routed through Azure Firewall
+* Azure Firewall is performing NAT and acting as the public egress point

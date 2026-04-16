@@ -1,47 +1,55 @@
-# Azure Hub-Spoke NVA Routing Lab
+# Azure Hub-Spoke Azure Firewall Routing Lab
 
 ## Overview
-This project demonstrates a Hub-Spoke network architecture in Azure using Terraform.  
-All outbound traffic from the spoke network is routed through a Linux-based Network Virtual Appliance (NVA) in the hub.
+
+This project demonstrates a Hub-Spoke network architecture in Azure using Terraform, where outbound traffic from a spoke virtual network is routed through Azure Firewall in the hub.
+
+The goal of this lab was to design, deploy, validate, and troubleshoot a centralized egress architecture using Azure-native security controls.
 
 ## Architecture Diagram
 
-![Azure Hub-Spoke NVA Routing Lab](./diagram.png)
+![Azure Hub-Spoke Azure Firewall Routing Lab](./diagram.png)
+
+---
 
 ## Key Components
 
 ### Hub VNet
 - Address space: `10.0.0.0/16`
-- NVA subnet: `10.0.2.0/24`
-- NVA private IP: `10.0.2.4`
+- Azure Firewall subnet: `10.0.1.0/26`
+- Jump host subnet: `10.0.2.0/24`
+- Azure Firewall private IP: `10.0.1.4`
 
 ### Spoke VNet
 - Address space: `10.1.0.0/16`
 - Workload subnet: `10.1.1.0/24`
 - Spoke VM private IP: `10.1.1.4`
 
-### Routing
-- User Defined Route on spoke subnet:
-  - `0.0.0.0/0 -> 10.0.2.4`
-- All outbound traffic from the spoke is forced through the NVA
+---
 
-### NVA Configuration
-- Ubuntu Linux VM in the hub
-- Azure NIC IP forwarding enabled
-- Linux IP forwarding enabled
-- NAT configured with `iptables`
+## Routing Design
 
-### Access Model
-- NVA has a public IP for administration
-- Spoke VM is private-only
-- SSH path:
-  - Laptop -> NVA -> Spoke VM
+- A User Defined Route (UDR) is applied to the spoke subnet:
+  - `0.0.0.0/0 → 10.0.1.4`
+- All outbound traffic from the spoke VM is forced through Azure Firewall
+- Direct internet egress from the spoke is disabled by design
 
-## Validation Performed
+---
 
-### Internet Connectivity Test
-From `vm-spoke`:
+## Azure Firewall Configuration
 
-```bash
-ping -c 4 8.8.8.8
-curl -4 http://ifconfig.me/ip
+- Azure Firewall deployed in the hub network
+- Firewall Policy attached for centralized rule management
+- Network rules configured to allow outbound traffic (HTTP, HTTPS, DNS)
+- Firewall performs NAT and becomes the **egress identity** for the spoke
+
+---
+
+## Access Model
+
+- Jump host deployed in hub with public IP
+- Spoke VM is private-only (no public IP)
+- SSH access path:
+
+```text
+Laptop → Jump Host → Spoke VM

@@ -79,3 +79,14 @@ Azure-Firewall Public IP
 * Outbound traffic is not using the default Azure internet path
 * Traffic is successfully routed through Azure Firewall
 * Azure Firewall is performing NAT and acting as the public egress point
+
+---
+
+## Inbound Access (DNAT)
+
+In addition to centralized outbound routing, Azure Firewall was used to publish a private web server in the spoke network using a DNAT rule.
+
+### Inbound Traffic Flow
+
+```text
+Internet → Azure Firewall Public IP → DNAT → 10.1.1.4 (NGINX Web Server)

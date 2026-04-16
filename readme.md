@@ -90,3 +90,17 @@ In addition to centralized outbound routing, Azure Firewall was used to publish 
 
 ```text
 Internet → Azure Firewall Public IP → DNAT → 10.1.1.4 (NGINX Web Server)
+
+### Browser Validation
+
+Accessing the Azure Firewall public IP from a browser successfully returned the NGINX default page.
+
+This confirmed:
+
+- The web server remained private with no public IP
+- Azure Firewall controlled inbound access
+- DNAT correctly forwarded traffic to the internal workload
+
+### Screenshot
+
+![Azure Firewall DNAT to Private NGINX Web Server](./dnat-nginx.png)

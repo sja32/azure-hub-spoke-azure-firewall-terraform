@@ -54,15 +54,3 @@ The goal of this lab was to design, deploy, validate, and troubleshoot a central
 ```text
 Laptop → Jump Host → Spoke VM
 
----
-## Validation
-
-Test Commands
-curl -4 http://ifconfig.me/ip
-curl -4 https://ifconfig.me/ip
-
-Result
-Azure Firewall Public IP
-
-```markdown
----

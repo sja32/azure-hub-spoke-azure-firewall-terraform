@@ -71,7 +71,7 @@ curl -4 https://ifconfig.me/ip
 ### Result
 
 ```text
-20.228.171.168
+Azure-Firewall Public IP
 ```
 
 ### What This Confirms

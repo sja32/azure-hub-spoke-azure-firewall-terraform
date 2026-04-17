@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project demonstrates a Hub-Spoke network architecture in Azure using Terraform, where outbound traffic from a spoke virtual network is routed through Azure Firewall in the hub.
+This project demonstrates a hub-spoke network architecture in Azure using Terraform, where outbound traffic from a spoke virtual network is routed through Azure Firewall in the hub.
 
 The goal of this lab was to design, deploy, validate, and troubleshoot a centralized egress architecture using Azure-native security controls.
 
@@ -40,67 +40,16 @@ The goal of this lab was to design, deploy, validate, and troubleshoot a central
 
 - Azure Firewall deployed in the hub network
 - Firewall Policy attached for centralized rule management
-- Network rules configured to allow outbound traffic (HTTP, HTTPS, DNS)
-- Firewall performs NAT and becomes the **egress identity** for the spoke
+- Network rules configured to allow outbound traffic for HTTP, HTTPS, and DNS
+- Azure Firewall performs NAT and becomes the public egress identity for the spoke
 
 ---
 
 ## Access Model
 
-* Jump host deployed in hub with public IP
-* Spoke VM is private-only (no public IP)
-* SSH access path:
+- Jump host deployed in hub with public IP
+- Spoke VM is private-only with no public IP
+- SSH access path:
 
 ```text
 Laptop → Jump Host → Spoke VM
-```
-
----
-
-## Validation
-
-### Test Commands
-
-From the spoke VM:
-
-```bash
-curl -4 http://ifconfig.me/ip
-curl -4 https://ifconfig.me/ip
-```
-
-### Result
-
-```text
-Azure Firewall Public IP
-```
-
-### What This Confirms
-
-* Outbound traffic is not using the default Azure internet path
-* Traffic is successfully routed through Azure Firewall
-* Azure Firewall is performing NAT and acting as the public egress point
-
----
-
-## Inbound Access (DNAT)
-
-In addition to centralized outbound routing, Azure Firewall was used to publish a private web server in the spoke network using a DNAT rule.
-
-### Inbound Traffic Flow
-
-```text
-Internet → Azure Firewall Public IP → DNAT → 10.1.1.4 (NGINX Web Server)
-
-### Browser Validation
-
-Accessing the Azure Firewall public IP from a browser successfully returned the NGINX default page.
-
-This confirmed:
-
-- The web server remained private with no public IP
-- Azure Firewall controlled inbound access
-- DNAT correctly forwarded traffic to the internal workload
-
-### Screenshot
-
-![Azure Firewall DNAT rule configuration](./dnat-nginx.png)

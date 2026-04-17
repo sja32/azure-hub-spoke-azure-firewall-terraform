@@ -103,4 +103,4 @@ This confirmed:
 
 ### Screenshot
 
-![Azure Firewall DNAT to Private NGINX Web Server](./dnat-nginx.png)
+![Azure Firewall DNAT rule configuration showing traffic routing from the firewall public IP to private NGINX web server at 10.1.1.4 in the spoke network, displaying successful NAT translation settings in the Azure portal](./dnat-nginx)

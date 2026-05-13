@@ -6,6 +6,27 @@ This project demonstrates a hub-spoke network architecture in Azure using Terraf
 
 The goal of this lab was to design, deploy, validate, and troubleshoot a centralized egress architecture using Azure-native security controls.
 
+The lab focuses on:
+- Centralized network security
+- Segmentation between workloads
+- Controlled ingress and egress traffic
+- Azure Firewall deployment
+- Infrastructure as Code (IaC)
+- Cloud security engineering concepts
+
+---
+
+## Architecture
+
+This lab uses a hub-and-spoke topology where:
+
+- The hub virtual network contains shared security services
+- Azure Firewall provides centralized traffic inspection
+- Spoke virtual networks host isolated workloads
+- User Defined Routes (UDRs) direct traffic through the firewall
+- Network Security Groups (NSGs) enforce segmentation
+
+
 ## Architecture Diagram
 
 ![Azure Hub-Spoke Azure Firewall Routing Lab](./diagram.png)
@@ -20,6 +41,8 @@ The goal of this lab was to design, deploy, validate, and troubleshoot a central
 - Jump host subnet: `10.0.2.0/24`
 - Azure Firewall private IP: `10.0.1.4`
 
+---
+
 ### Spoke VNet
 - Address space: `10.1.0.0/16`
 - Workload subnet: `10.1.1.0/24`
@@ -33,6 +56,18 @@ The goal of this lab was to design, deploy, validate, and troubleshoot a central
   - `0.0.0.0/0 → 10.0.1.4`
 - All outbound traffic from the spoke VM is forced through Azure Firewall
 - Direct internet egress from the spoke is disabled by design
+
+---
+
+## Technologies Used
+
+- Microsoft Azure
+- Terraform
+- Azure Firewall
+- Virtual Networks (VNets)
+- User Defined Routes (UDRs)
+- Network Security Groups (NSGs)
+
 
 ---
 
@@ -53,3 +88,24 @@ The goal of this lab was to design, deploy, validate, and troubleshoot a central
 
 ```text
 Laptop → Jump Host → Spoke VM
+
+---
+
+
+## Security Concepts Demonstrated
+
+- Centralized egress filtering
+- Network segmentation
+- Controlled routing paths
+- Secure inbound publishing
+- Infrastructure as Code deployment methodology
+
+---
+
+## Future Improvements
+
+- Bastion integration
+- IDS/IPS inspection
+- Terraform modules
+- CI/CD deployment pipeline
+- Logging and monitoring integration

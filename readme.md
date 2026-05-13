@@ -1,5 +1,10 @@
 # Azure Hub-Spoke Azure Firewall Routing Lab
 
+![Terraform](https://img.shields.io/badge/Terraform-IaC-blueviolet)
+![Azure](https://img.shields.io/badge/Azure-Cloud-blue)
+![Security](https://img.shields.io/badge/Security-Networking-green)
+
+
 ## Overview
 
 This project demonstrates a hub-spoke network architecture in Azure using Terraform, where outbound traffic from a spoke virtual network is routed through Azure Firewall in the hub.
